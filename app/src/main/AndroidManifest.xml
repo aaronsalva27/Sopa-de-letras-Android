@@ -16,9 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="TableroActivity"
+            android:name=".TableroActivity"
             android:label="Tablero">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
