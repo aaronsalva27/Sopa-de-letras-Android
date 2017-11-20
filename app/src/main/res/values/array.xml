@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="palabras">
+        <item>LEON</item>
+        <item>ELEFANTE</item>
+        <item>PISCINA</item>
+        <item>ABRIGO</item>
+        <item>ORDENADOR</item>
+        <item>JAVA</item>
+        <item>CLASE</item>
+        <item>NIÑO</item>
+        <item>PEZ</item>
+        <item>GOOGLE</item>
+    </string-array>
+</resources>
