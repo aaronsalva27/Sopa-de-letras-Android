@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SopaDeLetras</string>
+    <string name="menu_help">Help</string>
 </resources>
