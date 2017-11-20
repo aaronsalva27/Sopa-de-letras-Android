@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     tools:context="fje.clot.daw2.sopadeletras.TableroActivity">
 
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp">
-
-    </RelativeLayout>
-
     <GridLayout
         android:id="@+id/grid"
         android:layout_width="match_parent"

@@ -38,7 +38,7 @@ public class TableroActivity extends AppCompatActivity {
         String missatge = intent.getStringExtra(MainActivity.EXTRA_MISSATGE);
 
         tablero = (GridLayout) findViewById(R.id.grid);
-        generarTaba();
+        //generarTaba();
 
     }
 
