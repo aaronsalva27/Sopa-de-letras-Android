@@ -6,25 +6,19 @@
     android:layout_height="match_parent"
     tools:context="fje.clot.daw2.sopadeletras.TableroActivity">
 
-    <GridLayout
+    <GridView
         android:id="@+id/grid"
-        android:layout_width="match_parent"
-        android:layout_height="264dp"
-        android:layout_marginBottom="24dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_width="409dp"
+        android:layout_height="461dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="-1dp"
+        android:columnWidth="60dp"
+        android:gravity="center"
+        android:numColumns="10"
+        app:layout_constraintDimensionRatio=""
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.004"
-        android:rowCount="10"
-        android:columnCount="10"
-        android:orientation="horizontal" >
-
-
-    </GridLayout>
-
+        app:layout_constraintHorizontal_bias="1.0" />
 </android.support.constraint.ConstraintLayout>
