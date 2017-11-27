@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -28,8 +31,13 @@ import static android.R.attr.max;
 public class TableroActivity extends AppCompatActivity {
     private String[] palabras;
     private GridView tablero;
+    private String palabraActual="";
+    private Button btReset;
+    String[] letras;
     ArrayAdapter<String> Adapter;
     private TextView lbActual;
+    private ArrayList<Integer> palabrasIndex = new ArrayList<Integer>();
+    private ArrayList<Integer> palabrasIndexCorrectas = new ArrayList<Integer>();
     static final char[] numbers = new char[] {
             'A', 'B', 'C', 'D', 'E',
             'F', 'G', 'H', 'I', 'J',
@@ -57,13 +65,61 @@ public class TableroActivity extends AppCompatActivity {
 
         tablero = (GridView) findViewById(R.id.grid);
         lbActual = (TextView) findViewById(R.id.lbActual);
+        btReset = (Button) findViewById(R.id.btReset);
 
+        tablero.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                System.out.println( letras[position]);
+                palabrasIndex.add(position);
+
+                view.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+
+                palabraActual += letras[position];
+                lbActual.setText(palabraActual);
+                checkPalabra(palabraActual);
+            }
+        });
+
+        btReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("ENtra en el boton");
+                for(Integer item : palabrasIndex ){
+                    tablero.getChildAt(item).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                }
+                palabrasIndex.clear();
+                palabraActual = "";
+                lbActual.setText(palabraActual);
+
+            }
+        });
         generarTaba();
+    }
 
+    public void checkPalabra(String palabra){
+        System.out.println("checkeando");
+        if(Arrays.asList(palabras).contains(palabra)) {
+            joinArray(palabrasIndex,palabrasIndexCorrectas);
+            palabrasIndex.clear();
+            palabraActual = "";
+            lbActual.setText(palabraActual);
+
+            for(Integer item : palabrasIndexCorrectas ){
+                tablero.getChildAt(item).setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+            }
+
+        }
+    }
+
+    public void joinArray(ArrayList<Integer> palabrasIndex, ArrayList<Integer> palabrasIndexCorrectas){
+        for (int i = 0 ;i<palabrasIndex.size();i++) {
+            palabrasIndexCorrectas.add(palabrasIndex.get(i));
+        }
     }
 
     public void generarTaba(){
-        String[] letras;
         ArrayList<char[]> filasParsed;
         ArrayList<String>  sopa = new ArrayList<String>();
 
