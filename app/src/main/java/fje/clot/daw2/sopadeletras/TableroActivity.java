@@ -1,6 +1,7 @@
 package fje.clot.daw2.sopadeletras;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.res.TypedArrayUtils;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -31,10 +33,12 @@ import static android.R.attr.max;
 public class TableroActivity extends AppCompatActivity {
     private String[] palabras;
     private GridView tablero;
+    private GridView gridPalabras;
     private String palabraActual="";
     private Button btReset;
     String[] letras;
     ArrayAdapter<String> Adapter;
+    ArrayAdapter<String> PalabrasAdapter;
     private TextView lbActual;
     private ArrayList<Integer> palabrasIndex = new ArrayList<Integer>();
     private ArrayList<Integer> palabrasIndexCorrectas = new ArrayList<Integer>();
@@ -66,6 +70,11 @@ public class TableroActivity extends AppCompatActivity {
         tablero = (GridView) findViewById(R.id.grid);
         lbActual = (TextView) findViewById(R.id.lbActual);
         btReset = (Button) findViewById(R.id.btReset);
+        gridPalabras = (GridView) findViewById(R.id.gridPalabras);
+
+        PalabrasAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, palabras);
+        gridPalabras.setAdapter(PalabrasAdapter);
 
         tablero.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -109,6 +118,13 @@ public class TableroActivity extends AppCompatActivity {
             for(Integer item : palabrasIndexCorrectas ){
                 tablero.getChildAt(item).setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
             }
+
+            Context context = getApplicationContext();
+            CharSequence text = "Correct!";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
 
         }
     }
