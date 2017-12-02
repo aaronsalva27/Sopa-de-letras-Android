@@ -34,12 +34,23 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        return  true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                obrirAjustos();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void obrirAjustos() {
+        toWebview();
     }
 
     public void sendMessage(){
@@ -48,4 +59,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void toWebview(){
+        Intent intent = new Intent(this, WebViewActivity.class);
+        startActivity(intent);
+    }
 }
