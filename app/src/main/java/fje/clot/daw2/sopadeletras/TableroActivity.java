@@ -1,9 +1,16 @@
 package fje.clot.daw2.sopadeletras;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.TypedArrayUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -37,9 +44,11 @@ public class TableroActivity extends AppCompatActivity {
     private String palabraActual="";
     private Button btReset;
     String[] letras;
+    private UtilityContactos uc = new UtilityContactos();
     ArrayAdapter<String> Adapter;
     ArrayAdapter<String> PalabrasAdapter;
     private TextView lbActual;
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     private ArrayList<Integer> palabrasIndex = new ArrayList<Integer>();
     private ArrayList<Integer> palabrasIndexCorrectas = new ArrayList<Integer>();
     static final char[] numbers = new char[] {
@@ -54,10 +63,28 @@ public class TableroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tablero);
 
-        System.out.println("generar tabla");
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_CONTACTS)) {
+            } else {
+                ActivityCompat.requestPermissions(this ,
+                        new String[]{Manifest.permission.READ_CONTACTS},
+                        PERMISSIONS_REQUEST_READ_CONTACTS);
+            }
+        }
+
+        // obtenemos los contactos
+        Cursor mCursor = obtenirContactes();
+        // gestionamos los contactos
+        uc.gestionarContactos(mCursor);
 
         // Recuperamos palabras
-        palabras = getResources().getStringArray(R.array.palabras);
+        //palabras = getResources().getStringArray(R.array.palabras);
+
+        palabras = uc.gestionarContactos(mCursor);
 
         // Enable the Up button
         ActionBar ab = getSupportActionBar();
@@ -105,6 +132,19 @@ public class TableroActivity extends AppCompatActivity {
             }
         });
         generarTaba();
+    }
+
+    private Cursor obtenirContactes() {
+        Uri uri = ContactsContract.Contacts.CONTENT_URI;
+        String[] projeccio = new String[]{ContactsContract.Contacts._ID,
+                ContactsContract.Contacts.DISPLAY_NAME};
+        String seleccio = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = '"
+                + ("1") + "'";
+        String[] argsSeleccio = null;
+        String ordre = ContactsContract.Contacts.DISPLAY_NAME
+                + " COLLATE LOCALIZED ASC";
+
+        return getContentResolver().query(uri, projeccio, null, null, null);
     }
 
     public void checkPalabra(String palabra){
