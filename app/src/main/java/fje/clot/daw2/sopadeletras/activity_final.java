@@ -11,9 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * Actividad que sale al final de una partida con tu puntuación.
+ */
 public class activity_final extends AppCompatActivity {
-
+    // boton para volver al inicio
     protected Button buttonAtras;
+    // textView con los segundos que el jugador a tardado
     protected TextView textViewPuntSegundos;
 
     @Override
@@ -29,6 +33,7 @@ public class activity_final extends AppCompatActivity {
         textViewPuntSegundos = (TextView) findViewById(R.id.textViewPuntSegundos);
         textViewPuntSegundos.setText(missatge +" segons");
         buttonAtras = (Button) findViewById(R.id.buttonAtras);
+        // función anonima para volver al inicio
         buttonAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

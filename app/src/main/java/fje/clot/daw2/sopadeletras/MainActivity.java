@@ -19,9 +19,16 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Clase MainActivity
+ * clase que gestiona el inicio de la partida, pregunta por un nombre
+ * y lo envia a la siguiente actividad. Además recuperar las mejores
+ * partidas de la BD.
+ */
 public class MainActivity extends AppCompatActivity {
-
+    // boton para iniciar partida
     protected Button PlayButton;
+    // nombre del jugador
     protected EditText editTextNom;
     public static final String EXTRA_MISSATGE = "edu.fje.dam2.data";
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
@@ -31,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // pedimos permisos para leer los contactos
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -44,20 +52,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        ///////////////////////////////////////////////////////////////////////////
+
         UtilityDatabase utilitatDB = new UtilityDatabase(getBaseContext());
         // seleccionem les date per a poder escriure
         SQLiteDatabase db = utilitatDB.getWritableDatabase();
-        // creem un mapa de valors on les columnes són les claus
-        // ContentValues valors = new ContentValues();
-        // valors.put(Partida.TaulaPartida.COLUMNA_CODI, "1237");
-        // valors.put(Partida.TaulaPartida.COLUMNA_NOM, "joan");
-        // valors.put(Partida.TaulaPartida.COLUMNA_PUNTUACIO, 8);
-
-        // afegim una fila i retorna la clau primària
-        // long id;
-        // id = db.insert(Partida.TaulaPartida.NOM_TAULA,
-                // Partida.TaulaPartida.COLUMNA_NULL, valors);
 
         db = utilitatDB.getReadableDatabase();
 
@@ -72,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         String ordre =
                 Partida.TaulaPartida.COLUMNA_PUNTUACIO + " DESC";
 
-
+        // recuperamos las partidas
         Cursor c = db.query(
                 Partida.TaulaPartida.NOM_TAULA,         // taula
                 projeccio,                              // columnes
@@ -83,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 ordre                                   // ordre
         );
 
+        // iteramos sobre los resultados obtenidos
         if(c != null){
             try{
                 c.moveToFirst();
@@ -97,12 +96,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
-
-///////////////////////////////////////////////////////////////////////////////////
-
         editTextNom = (EditText) findViewById(R.id.editTextNom);
         PlayButton = (Button) findViewById(R.id.ButtonPlay);
+
+        // función anonima para cambiar de actividad
         PlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,12 +109,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * recuperamos el menu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
+    /**
+     * funcion que se utiliza para gestionar las opciones del menú.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -132,14 +139,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void obrirAjustos() {
         toWebview();
-        //setContentView(R.layout.html_layout);
+
     }
+
+    /**
+     * realizamos un intent y passamos el nombre del jugador
+     */
     public void sendMessage(){
         Intent intent = new Intent(this, TableroActivity.class);
         intent.putExtra(EXTRA_MISSATGE, editTextNom.getText().toString());
         startActivity(intent);
     }
 
+    /**
+     * función para abrir el webview
+     */
     public void toWebview(){
         Intent intent = new Intent(this, WebViewActivity.class);
         startActivity(intent);

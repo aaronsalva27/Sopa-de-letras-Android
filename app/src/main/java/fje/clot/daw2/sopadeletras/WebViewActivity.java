@@ -4,6 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
 
+/**
+ * Activity que encasta una web html
+ */
 public class WebViewActivity extends AppCompatActivity {
 
     @Override

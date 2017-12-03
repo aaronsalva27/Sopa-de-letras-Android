@@ -12,12 +12,12 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
+
 /**
- * Created by arand on 02/12/2017.
+ * Clase que gestiona la base de datos
  */
-
 public class UtilityDatabase extends SQLiteOpenHelper {
-
+    
     private static final String TIPUS_TEXT = " TEXT";
     private static final String TIPUS_ENTER = " INT";
     private static final String SEPARADOR_COMA = ",";

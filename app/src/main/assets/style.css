@@ -1,0 +1,31 @@
+.title {
+    background-color: #42a5f5;
+    padding: 3px;
+
+}
+
+.title h3 {
+    size: 15px;
+    color: #FFFFFF;
+    text-align: center;
+
+
+}
+.col s12 {
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+}
+
+.main {
+
+}
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.btn {
+    background-color: #D3CACA!important;;
+
+}
