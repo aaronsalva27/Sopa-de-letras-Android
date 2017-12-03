@@ -54,7 +54,7 @@ public class TableroActivity extends AppCompatActivity {
     ArrayAdapter<String> Adapter;
     ArrayAdapter<String> PalabrasAdapter;
     private TextView lbActual;
-    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+
     private ArrayList<Integer> palabrasIndex = new ArrayList<Integer>();
     private ArrayList<Integer> palabrasIndexCorrectas = new ArrayList<Integer>();
     static final char[] numbers = new char[] {
@@ -69,28 +69,18 @@ public class TableroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tablero);
 
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_CONTACTS)) {
-            } else {
-                ActivityCompat.requestPermissions(this ,
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        PERMISSIONS_REQUEST_READ_CONTACTS);
-            }
-        }
 
         // obtenemos los contactos
         Cursor mCursor = obtenirContactes();
         // gestionamos los contactos
-        uc.gestionarContactos(mCursor);
+        palabras = uc.gestionarContactos(mCursor);
+
 
         // Recuperamos palabras
         //palabras = getResources().getStringArray(R.array.palabras);
 
-        palabras = uc.gestionarContactos(mCursor);
+
 
         // Enable the Up button
         ActionBar ab = getSupportActionBar();

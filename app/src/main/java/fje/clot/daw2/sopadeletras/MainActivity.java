@@ -1,10 +1,14 @@
 package fje.clot.daw2.sopadeletras;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,11 +24,25 @@ public class MainActivity extends AppCompatActivity {
     protected Button PlayButton;
     protected EditText editTextNom;
     public static final String EXTRA_MISSATGE = "edu.fje.dam2.data";
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_CONTACTS)) {
+            } else {
+                ActivityCompat.requestPermissions(this ,
+                        new String[]{Manifest.permission.READ_CONTACTS},
+                        PERMISSIONS_REQUEST_READ_CONTACTS);
+            }
+        }
 
         ///////////////////////////////////////////////////////////////////////////
         UtilityDatabase utilitatDB = new UtilityDatabase(getBaseContext());
@@ -65,12 +83,20 @@ public class MainActivity extends AppCompatActivity {
                 ordre                                   // ordre
         );
 
-        c.moveToFirst();
-        while (!c.isLast()){
-            System.out.println(c.getString(c.getColumnIndex(Partida.TaulaPartida.COLUMNA_NOM)));
-            System.out.println(c.getString(c.getColumnIndex(Partida.TaulaPartida.COLUMNA_PUNTUACIO)));
-            c.moveToNext();
+        if(c != null){
+            try{
+                c.moveToFirst();
+                while (!c.isLast()) {
+                    System.out.println(c.getString(c.getColumnIndex(Partida.TaulaPartida.COLUMNA_NOM)));
+                    System.out.println(c.getString(c.getColumnIndex(Partida.TaulaPartida.COLUMNA_PUNTUACIO)));
+                    c.moveToNext();
+                }
+            }catch (Exception e) {
+
+            }
+
         }
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////

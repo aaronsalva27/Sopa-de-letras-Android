@@ -18,7 +18,7 @@ public class UtilityContactos extends AppCompatActivity {
         contactosCursor.moveToFirst();
 
         while(!contactosCursor.isAfterLast()) {
-            System.out.println(contactosCursor.getString(contactosCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)).split(" ")[0]);
+
             String newPalabra = contactosCursor.getString(contactosCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)).split(" ")[0].toUpperCase();
 
             if(!Arrays.asList(palabras).contains(newPalabra)){
@@ -29,7 +29,7 @@ public class UtilityContactos extends AppCompatActivity {
             contactosCursor.moveToNext();
         }
 
-        return palabras.toArray(new String[palabras.size()]);
+        return Arrays.copyOfRange(palabras.toArray(new String[palabras.size()]), 0, 9);
     }
 
 }
