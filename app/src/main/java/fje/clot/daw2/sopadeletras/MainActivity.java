@@ -18,10 +18,16 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import java.util.Dictionary;
 
 /**
  * Clase MainActivity
- * clase que gestiona el inicio de la partida, pregunta por un nombre
+ * Clase que gestiona el inicio de la partida, pregunta por un nombre
  * y lo envia a la siguiente actividad. Además recuperar las mejores
  * partidas de la BD.
  */
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected EditText editTextNom;
     public static final String EXTRA_MISSATGE = "edu.fje.dam2.data";
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    protected TextView textViewPuntuacions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,16 +66,19 @@ public class MainActivity extends AppCompatActivity {
 
         db = utilitatDB.getReadableDatabase();
 
+        ArrayList<String> puntuacions = new ArrayList<String>();
+
         String[] projeccio = {
                 Partida.TaulaPartida._ID,
                 Partida.TaulaPartida.COLUMNA_NOM,
                 Partida.TaulaPartida.COLUMNA_PUNTUACIO
         };
 
+
         String seleccio ="puntuacio >= ?";
         String[] seleccioArgs = {"5"};
         String ordre =
-                Partida.TaulaPartida.COLUMNA_PUNTUACIO + " DESC";
+                Partida.TaulaPartida.COLUMNA_PUNTUACIO + " ASC";
 
         // recuperamos las partidas
         Cursor c = db.query(
@@ -86,15 +96,30 @@ public class MainActivity extends AppCompatActivity {
             try{
                 c.moveToFirst();
                 while (!c.isLast()) {
-                    System.out.println(c.getString(c.getColumnIndex(Partida.TaulaPartida.COLUMNA_NOM)));
-                    System.out.println(c.getString(c.getColumnIndex(Partida.TaulaPartida.COLUMNA_PUNTUACIO)));
+                    //System.out.println(c.getString(c.getColumnIndex(Partida.TaulaPartida.COLUMNA_NOM)));
+                    //System.out.println(c.getString(c.getColumnIndex(Partida.TaulaPartida.COLUMNA_PUNTUACIO)));
+
+                    puntuacions.add(c.getString(c.getColumnIndex(Partida.TaulaPartida.COLUMNA_NOM)) + " - "+
+                            c.getString(c.getColumnIndex(Partida.TaulaPartida.COLUMNA_PUNTUACIO)) + " segons");
+
                     c.moveToNext();
+
                 }
             }catch (Exception e) {
 
             }
-
         }
+
+        textViewPuntuacions = (TextView) findViewById(R.id.textViewPuntuacions);
+
+        String text = "";
+        for(int i = 0 ; i < puntuacions.size(); i++) {
+            if(i > 10) return;
+            text += i+1+ " " +  puntuacions.get( i ) + "\n";
+        }
+
+        textViewPuntuacions.setText(text);
+
 
         editTextNom = (EditText) findViewById(R.id.editTextNom);
         PlayButton = (Button) findViewById(R.id.ButtonPlay);
