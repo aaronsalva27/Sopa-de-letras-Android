@@ -45,7 +45,7 @@
         tools:layout_editor_absoluteY="387dp" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/textViewPuntSegundos"
         android:layout_width="306dp"
         android:layout_height="195dp"
         android:layout_marginBottom="8dp"
@@ -53,6 +53,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:text="PUNTUACIÓ"
+        android:textColor="@color/colorPrimary"
         android:textAlignment="center"
         android:textSize="30sp"
         android:typeface="sans"

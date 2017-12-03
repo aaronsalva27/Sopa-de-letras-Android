@@ -14,7 +14,7 @@ import android.widget.TextView;
 public class activity_final extends AppCompatActivity {
 
     protected Button buttonAtras;
-    protected TextView textViewPuntuacioFinal;
+    protected TextView textViewPuntSegundos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +26,21 @@ public class activity_final extends AppCompatActivity {
         String missatge = intent.getStringExtra(TableroActivity.EXTRA_MISSATGE);
 
 
-        textViewPuntuacioFinal = (TextView) findViewById(R.id.textViewPuntuacioFinal);
-        textViewPuntuacioFinal.setText("La teva puntuacio: "+missatge+"s");
+        textViewPuntSegundos = (TextView) findViewById(R.id.textViewPuntSegundos);
+        textViewPuntSegundos.setText(missatge +" segons");
         buttonAtras = (Button) findViewById(R.id.buttonAtras);
         buttonAtras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("Go to: MainActivity");
+                toMainActivity();
             }
         });
+    }
+
+    //Mètode per anar al Main Activity
+    public void toMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
