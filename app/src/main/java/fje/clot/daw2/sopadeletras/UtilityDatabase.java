@@ -17,7 +17,7 @@ import android.widget.EditText;
  * Clase que gestiona la base de datos
  */
 public class UtilityDatabase extends SQLiteOpenHelper {
-    
+
     private static final String TIPUS_TEXT = " TEXT";
     private static final String TIPUS_ENTER = " INT";
     private static final String SEPARADOR_COMA = ",";
