@@ -2,10 +2,12 @@ package fje.clot.daw2.sopadeletras;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -39,11 +41,15 @@ import static android.R.attr.max;
 
 public class TableroActivity extends AppCompatActivity {
     private String[] palabras;
+    private Partida partida = new Partida();
     private GridView tablero;
     private GridView gridPalabras;
+    private UtilityTimer timer = new UtilityTimer();
+    private int puntos = 0;
     private String palabraActual="";
     private Button btReset;
     String[] letras;
+    public static final String EXTRA_MISSATGE = "edu.fje.dam2.data";
     private UtilityContactos uc = new UtilityContactos();
     ArrayAdapter<String> Adapter;
     ArrayAdapter<String> PalabrasAdapter;
@@ -93,6 +99,7 @@ public class TableroActivity extends AppCompatActivity {
         // recuperamos información de la activity anterior
         Intent intent = getIntent();
         String missatge = intent.getStringExtra(MainActivity.EXTRA_MISSATGE);
+        partida.Nom = missatge;
 
         tablero = (GridView) findViewById(R.id.grid);
         lbActual = (TextView) findViewById(R.id.lbActual);
@@ -131,7 +138,27 @@ public class TableroActivity extends AppCompatActivity {
 
             }
         });
+        // generamos la tabla
         generarTaba();
+
+        // empezamos a contar el tiempo
+        timer.start();
+    }
+
+    private void savePartida(String nombre, long puntuacion) {
+        UtilityDatabase utilitatDB = new UtilityDatabase(getBaseContext());
+        // seleccionem les date per a poder escriure
+        SQLiteDatabase db = utilitatDB.getWritableDatabase();
+        // creem un mapa de valors on les columnes són les claus
+        ContentValues valors = new ContentValues();
+        valors.put(Partida.TaulaPartida.COLUMNA_CODI, nombre);
+        valors.put(Partida.TaulaPartida.COLUMNA_NOM, nombre);
+        valors.put(Partida.TaulaPartida.COLUMNA_PUNTUACIO, puntuacion);
+
+        // afegim una fila i retorna la clau primària
+        long id;
+        id = db.insert(Partida.TaulaPartida.NOM_TAULA,
+                Partida.TaulaPartida.COLUMNA_NULL, valors);
     }
 
     private Cursor obtenirContactes() {
@@ -165,6 +192,17 @@ public class TableroActivity extends AppCompatActivity {
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
+
+            puntos += 1;
+
+            if (puntos == 9) {
+                Intent intent = new Intent(this, activity_final.class);
+                partida.Puntuacion = timer.stop()/1000;
+                // guardamos la partida
+                this.savePartida(partida.Nom,partida.Puntuacion);
+                intent.putExtra(EXTRA_MISSATGE, String.valueOf(timer.stop()/1000));
+                startActivity(intent);
+            }
 
         }
     }

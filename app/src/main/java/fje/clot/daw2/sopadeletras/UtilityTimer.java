@@ -5,4 +5,14 @@ package fje.clot.daw2.sopadeletras;
  */
 
 public class UtilityTimer {
+    private long currentTime;
+
+
+    public void start(){
+        currentTime = System.currentTimeMillis();
+    }
+
+    public long stop() {
+         return   System.currentTimeMillis()-currentTime;
+    }
 }

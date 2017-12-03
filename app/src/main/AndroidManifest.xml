@@ -32,6 +32,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".WebViewActivity"></activity>
+        <activity android:name=".activity_final"></activity>
     </application>
 
 </manifest>
